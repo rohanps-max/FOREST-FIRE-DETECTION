@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>High Contrast Fire Detection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="background-grid"></div>
+    <div class="scanline"></div>
+    
+    <div class="container">
+        <header>
+            <div class="header-titles">
+                <h1>H.A.Z.A.R.D. <span>MONITOR</span></h1>
+                <p>Advanced Real-Time Fire AI & Mobile Alerting Matrix</p>
+            </div>
+            <div class="system-status-box" id="system-status-box">
+                <span class="pulse"></span>
+                <span id="system-status-text">SYSTEM SECURE</span>
+            </div>
+        </header>
+
+        <div class="controls-bar">
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab-btn active" data-target="live-feed">Live Camera Feed</button>
+                <button class="tab-btn" data-target="upload-feed">Upload Image Analysis</button>
+            </div>
+            <!-- Confidence Slider -->
+            <div class="conf-slider-container">
+                <label for="conf-slider">AI Sensitivity [<span id="conf-val">80</span>%]:</label>
+                <input type="range" id="conf-slider" min="10" max="95" value="80" step="5">
+            </div>
+        </div>
+
+        <div class="dashboard">
+            <!-- Main Content Area -->
+            <div class="main-view glass-panel">
+                
+                <!-- LIVE FEED TAB -->
+                <div id="live-feed" class="tab-content active">
+                    <div class="panel-header">
+                        <h2>SENSORS: ACTIVE</h2>
+                        <button id="capture-btn" class="action-btn capture-btn">CAPTURE SNAPSHOT</button>
+                    </div>
+                    <div class="video-wrapper">
+                        <img src="{{ url_for('video_feed') }}" alt="Live Feed" id="video-stream" onerror="this.src=''; this.alt='Sensors Offline';" />
+                        <div class="crosshair"></div>
+                    </div>
+                    
+                    <!-- Captured snapshots go here -->
+                    <div id="snapshot-gallery" class="gallery hidden">
+                        <h3>CAPTURED DATA</h3>
+                        <div class="gallery-grid" id="gallery-grid"></div>
+                    </div>
+                </div>
+
+                <!-- UPLOAD TAB -->
+                <div id="upload-feed" class="tab-content">
+                    <div class="panel-header">
+                        <h2>STATIC IMAGE ANALYSIS</h2>
+                    </div>
+                    <div class="upload-zone" id="upload-zone">
+                        <p>Drag & Drop Fire Suspect Image Here or Click to Browse</p>
+                        <input type="file" id="file-input" accept="image/*" class="hidden-input">
+                    </div>
+                    <div class="upload-result hidden" id="upload-result">
+                        <h3>ANALYSIS RESULT</h3>
+                        <div class="video-wrapper">
+                            <img id="upload-img-preview" src="" alt="Result" />
+                            <div class="crosshair"></div>
+                        </div>
+                        <p id="upload-status-text" class="status-msg"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar / Logs Area -->
+            <div class="sidebar glass-panel">
+                <div class="panel-header">
+                    <h2>DETECTION LOGS</h2>
+                    <span id="log-count" class="badge">0</span>
+                </div>
+                <div class="log-container" id="log-container">
+                    <p class="loading-text">Awaiting sensor data...</p>
+                </div>
+                
+                <div class="alert-info warning-box">
+                    <h3>⚠️ MOBILE ALERT PROTOCOL</h3>
+                    <p>TWILIO SMS Gateway linked. Immediate dispatch upon hazard verification. Ensure parameters in <code>alert.py</code> are calibrated.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
